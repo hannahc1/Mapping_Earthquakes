@@ -18,7 +18,7 @@ let line = [
   // Create a polyline using the line coordinates and make the line red.
 L.polyline(line, {
 	color: "blue",
-	dasharray: [8,8],
+	dashArray: '10,10',
 	weight: 4,
 	opacity: .5
   }).addTo(map);
