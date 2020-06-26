@@ -15,7 +15,7 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 	id:'satellite-streets-v11',
 	accessToken: API_KEY
 });//.addTo(map);
-// Add a night time layer.
+// Add a night time layer (the 3rd map style).
 let nightPreview = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
 	maxZoom: 18,
@@ -26,7 +26,7 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 let map = L.map('mapid',{
 	center: [39.5, -98.5],
 	zoom: 3,
-	layers: [streets]
+	layers: [streets]//Make the streets map the default map.
   });
 // Grabbing our GeoJSON data.
 // Create a style for the lines.
@@ -39,8 +39,8 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
 	// Creating a GeoJSON layer with the retrieved data.
 	console.log(data)
 	// This function returns the style data for each of the earthquakes we plot on
-// the map. We pass the magnitude of the earthquake into a function
-// to calculate the radius.
+	// the map. We pass the magnitude of the earthquake into a function
+	// to calculate the radius.
 function styleInfo(feature) {
 	return {
 	  opacity: 1,
@@ -94,6 +94,18 @@ L.geoJson(data, {
     layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
   }
 }).addTo(earthquakes);
+
+//Create the tectonic plate layer for the map.
+//Get tectonic plate data and add as an overlay to the map.
+d3.json("https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json").then(function(data) {
+	// Creating a GeoJSON layer with the retrieved data.
+	console.log(data);
+  L.geoJson(data, {
+	style: {color: "violet", weight: 3}
+
+  }).addTo(tectonics.addTo(map))
+
+});
 // Create a legend control object.
 let legend = L.control({position: 'bottomright'});
 
@@ -133,10 +145,12 @@ let baseMaps = {
   };
 // Create the earthquake layer for our map.
 let earthquakes = new L.layerGroup();
+let tectonics = new L.layerGroup();
 // We define an object that contains the overlays.
 // This overlay will be visible all the time.
 let overlays = {
-	Earthquakes: earthquakes
+	Earthquakes: earthquakes,
+	'Tectonic Plates' : tectonics
   };
 
 // Then we add a control to the map that will allow the user to change
