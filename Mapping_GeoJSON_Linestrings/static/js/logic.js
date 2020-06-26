@@ -38,10 +38,10 @@ console.log("working");
 // 	  }
 // }).addTo(map);
 // We create the tile layer that will be the background of our map. (see module 13.2.4 to change)
-let streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+let light = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
 	maxZoom: 18,
-	id:'streets-v11',
+	id:'light-v10',
 	accessToken: API_KEY
 });//.addTo(map);
 // Add a night time layer.
@@ -58,11 +58,10 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 // 	accessToken: API_KEY
 // })
 // Accessing the airport GeoJSON URL
-let airportData = "https://raw.githubusercontent.com/hannahc1/Mapping_Earthquakes/master/majorAirports.json";
+let torontoData = "https://github.com/hannahc1/Mapping_Earthquakes/blob/master/torontoRoutes.json";
 // Grabbing our GeoJSON data.
-d3.json(airportData).then(function(data) {
+d3.json(torontoData).then(function(data) {
     console.log(data);
-   
   L.geoJson(data, {
         onEachFeature: function(feature, layer) {
     		console.log(layer);
@@ -71,14 +70,14 @@ d3.json(airportData).then(function(data) {
   .addTo(map);
 });
 var baseMaps = {
-	Street: streets,
+	Light: light,
 	Dark: dark
 };
 // Create the map object with center and zoom level.
 let map = L.map('mapid',{
-  center: [30, 30],
+  center: [44.0, -80.0],
   zoom: 2,
-  layers: [streets]
+  layers: [light]
 });
 
 // Then we add our 'streets' tile layer to the map.
