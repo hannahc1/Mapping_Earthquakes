@@ -21,8 +21,6 @@ let map = L.map('mapid',{
 	zoom: 3,
 	layers: [streets]
   });
-// Accessing the airport GeoJSON URL
-let torontoHoods = "https://raw.githubusercontent.com/hannahc1/Mapping_Earthquakes/master/torontoNeighborhoods.json";
 // Grabbing our GeoJSON data.
 // Create a style for the lines.
 let myStyle = {

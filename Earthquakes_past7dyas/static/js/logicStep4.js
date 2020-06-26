@@ -86,14 +86,23 @@ L.geoJson(data, {
     onEachFeature: function(feature, layer) {
     layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
   }
-}).addTo(map);
+}).addTo(earthquakes);
+	// Then we add the earthquake layer to our map.
+	earthquakes.addTo(map);
 	});
 // Create a base layer that holds both maps.
 let baseMaps = {
 	"Streets": streets,
 	"Satellite": satelliteStreets
   };
+// Create the earthquake layer for our map.
+let earthquakes = new L.layerGroup();
+// We define an object that contains the overlays.
+// This overlay will be visible all the time.
+let overlays = {
+	Earthquakes: earthquakes
+  };
 
-
-// Then we add our 'streets' tile layer to the map.
-L.control.layers(baseMaps).addTo(map);
+// Then we add a control to the map that will allow the user to change
+// which layers are visible.
+L.control.layers(baseMaps, overlays).addTo(map);
